@@ -1,6 +1,6 @@
 import * as images from '../images/**/*.png';
 
-console.log(images);
+// console.log(images);
 
 (function() {
   var mk = {};
@@ -11,6 +11,7 @@ console.log(images);
   };
 
   mk.config = {
+    IMAGES: 'images/',
     ARENAS: 'arenas',
     FIGHTERS: 'fighters',
     STEP_DURATION: 80,
@@ -608,6 +609,9 @@ console.log(images);
       this._context.drawImage(this.texture, 0, 0, this.width, this.height);
     } else {
       img.src = images[conf.ARENAS][this.arena].arena;
+      // img.src = 'http://tek-district.com/images/arena.png';
+      // need to get this working without a string value
+      // img.src = conf.IMAGES + conf.ARENAS + this.arena + '/arena.png';
       img.width = this.width;
       img.height = this.height;
       img.onload = function() {
@@ -615,6 +619,8 @@ console.log(images);
         self._context.drawImage(img, 0, 0, self.width, self.height);
       };
     }
+    console.log(images[conf.ARENAS][this.arena].arena);
+    // console.log(conf.IMAGES + conf.ARENAS + this.arena + '/arena.png';
   };
 
   mk.arenas.Arena.prototype.refresh = function() {
@@ -1766,3 +1772,54 @@ console.log(images);
 
   window.mk = mk;
 })();
+
+(function () {
+
+      function $(id) {
+        return document.getElementById(id);
+      }
+
+      function setLife(container, life) {
+        container.style.width = life + '%';
+      }
+
+      document.onkeydown = function (e) {
+        if (e.keyCode === 32) {
+          window.location.reload();
+        }
+      };
+
+      (function () {
+        var startGame = function () {
+          $('loading').style.visibility = 'hidden';
+          $('arena').style.visibility = 'visible';
+          $('utils').style.visibility = 'visible';
+        };
+        var options = {
+          arena: {
+            container: document.getElementById('arena'),
+            arena: mk.arenas.types.THRONE_ROOM
+          },
+          fighters: [{ name: 'Subzero' }, { name: 'Kano' }],
+          callbacks: {
+            attack: function (f, o, l) {
+              if (o.getName() === 'kano') {
+                setLife($('player2Life'), o.getLife());
+              } else {
+                setLife($('player1Life'), o.getLife());
+              }
+            }
+
+          },
+          gameType: 'webcaminput'
+        };
+
+        function startNewGame() {
+          mk.start(options).ready(function () {
+            startGame();
+          });
+        }
+        startNewGame();
+      }());
+
+    }());
