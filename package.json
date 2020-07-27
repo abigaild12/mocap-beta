@@ -13,7 +13,7 @@
     "@tensorflow/tfjs": "^0.13.1",
     "@tensorflow/tfjs-node": "^0.1.18",
     "glob": "^7.1.6",
-    "jpeg-js": "^0.3.4",
+    "jpeg-js": "^0.4.0",
     "node-fetch": "^2.2.0",
     "png-js": "^0.1.1",
     "requirejs": "^2.3.6"
